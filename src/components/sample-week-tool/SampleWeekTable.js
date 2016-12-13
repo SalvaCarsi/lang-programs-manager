@@ -1,6 +1,7 @@
 import React from 'react';
 import DAYS from '../../data/days';
-import Griddle from 'griddle-react';
+import Table from 'rc-table';
+import _ from 'lodash';
 
 export default React.createClass({
   propTypes: {
@@ -9,19 +10,32 @@ export default React.createClass({
     numberOfPeriods: React.PropTypes.number,
     beginningOfPeriod: React.PropTypes.string
   },
-  getContent(){
-    //TODO prototype, drawing the table has taken a lot of effort, leaving it like
-    //TODO it is and moving on to pass props to this component
-    let content = [];
-    let element = {};
-    DAYS.slice(0, this.props.numberOfDays).forEach(o => element[o.label] = null);
-    content.push(element);
-    return content;
+  getColumns(){
+    let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
+    let columns = DAYS.map(function(element) {
+      let t = _.cloneDeep(columnsHeaderTemplate);
+      _.set(t, 'title', element.label.toUpperCase());
+      _.set(t, 'dataIndex', element.label.toLowerCase());
+      _.set(t, 'key', element.label.toLowerCase());
+      return t;
+    });
+    let emptyT = _.cloneDeep(columnsHeaderTemplate);
+    _.set(emptyT, 'title', '');
+    _.set(emptyT, 'dataIndex', 'period');
+    _.set(emptyT, 'key', 'period');
+    columns.unshift(emptyT);
+    return columns;
+  },
+  getData(){
+    let data = {};
+    DAYS.forEach(element => _.set(data, element.label, ''));
+    _.set(data, 'period', 'MORNING');
+    return [data];
   },
   render(){
     return (
       <div>
-        <Griddle results={this.getContent()}/>
+        <Table columns={this.getColumns()} data={this.getData()} />
       </div>
     );
   }
