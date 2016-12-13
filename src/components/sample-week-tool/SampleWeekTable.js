@@ -12,7 +12,7 @@ export default React.createClass({
   },
   getColumns(){
     let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
-    let columns = DAYS.map(function(element) {
+    let columns = DAYS.slice(0, this.props.numberOfDays).map(function(element) {
       let t = _.cloneDeep(columnsHeaderTemplate);
       _.set(t, 'title', element.label.toUpperCase());
       _.set(t, 'dataIndex', element.label.toLowerCase());
