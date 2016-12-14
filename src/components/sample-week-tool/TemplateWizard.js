@@ -4,6 +4,7 @@ import NumberOfDays from './selects/NumberOfDays';
 import NumberOfPeriods from './selects/NumberOfPeriods';
 import BeginningOfPeriod from './selects/BeginningOfPeriod';
 import SampleWeekTable from './SampleWeekTable';
+import PERIODS from '../../data/periods';
 
 export default React.createClass({
   getInitialState() {
@@ -11,7 +12,7 @@ export default React.createClass({
       firstDay: 1,
       numberOfDays: 7,
       numberOfPeriods: 3,
-      beginningOfPeriod: 'morning'
+      beginningOfPeriod: PERIODS[0].value
     }
   },
   changeFirstDay(n){

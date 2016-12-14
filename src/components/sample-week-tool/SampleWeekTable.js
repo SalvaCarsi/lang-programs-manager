@@ -43,11 +43,40 @@ export default React.createClass({
     return columns;
   },
   generateRows(){
-    // let numberOfPeriods = this.props.numberOfPeriods === null ? 7 : this.props.numberOfPeriods;
-    // let beginningOfPeriod = this.props.beginningOfPeriod === null ? 0 : this.props.beginningOfPeriod;
+    const morningKeyValue = PERIODS[0].value;
+    const afternoonKeyValue = PERIODS[1].value;
+    const eveningKeyValue = PERIODS[2].value;
+    const fullDayKeyValue = PERIODS[3].value;
+    let numberOfPeriods = this.props.numberOfPeriods === null ? 3 : this.props.numberOfPeriods;
+    let beginningOfPeriod = this.props.beginningOfPeriod === null ? morningKeyValue : this.props.beginningOfPeriod;
+
     return PERIODS.map(function (period) {
       let data = {};
-      _.set(data, 'period', period.label.toUpperCase());
+      switch (beginningOfPeriod) {
+        case morningKeyValue:
+          if (numberOfPeriods === 3 && period.value !== fullDayKeyValue)
+            _.set(data, 'period', period.label.toUpperCase());
+          if (numberOfPeriods === 2 && period.value !== fullDayKeyValue && period.value !== eveningKeyValue)
+            _.set(data, 'period', period.label.toUpperCase());
+          if (numberOfPeriods === 1 && period.value === morningKeyValue)
+            _.set(data, 'period', period.label.toUpperCase());
+          break;
+        case afternoonKeyValue:
+          if ((numberOfPeriods === 3 || numberOfPeriods === 2)
+            && period.value !== fullDayKeyValue && period.value !== morningKeyValue)
+            _.set(data, 'period', period.label.toUpperCase());
+          if (numberOfPeriods === 1 && period.value === afternoonKeyValue)
+            _.set(data, 'period', period.label.toUpperCase());
+          break;
+        case eveningKeyValue:
+          if (period.value === eveningKeyValue)
+            _.set(data, 'period', period.label.toUpperCase());
+          break;
+        case fullDayKeyValue:
+          if (period.value === fullDayKeyValue)
+            _.set(data, 'period', period.label.toUpperCase());
+          break;
+      }
       DAYS.forEach(day => _.set(data, day.label.toLowerCase(), ''));
       return data;
     });
