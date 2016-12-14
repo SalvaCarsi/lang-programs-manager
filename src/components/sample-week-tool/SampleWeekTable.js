@@ -5,7 +5,7 @@ import Table from 'rc-table';
 import _ from 'lodash';
 
 export default React.createClass({
-  // React elements and functions
+  //==== React elements and functions ====
   propTypes: {
     firstDay: React.PropTypes.number,
     numberOfDays: React.PropTypes.number,
@@ -19,11 +19,15 @@ export default React.createClass({
       </div>
     );
   },
-  // Helper functions
+  //==== Helper functions ====
   getColumns(){
-    let numberOfDays = this.props.numberOfDays === null ? 7 : this.props.numberOfDays;
     let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
-    let columns = DAYS.slice(0, numberOfDays).map(function(day) {
+    let numberOfDays = this.props.numberOfDays === null ? 7 : this.props.numberOfDays;
+    let firstDay = this.props.firstDay === null ? 0 : this.props.firstDay;
+    // building a new DAYS array, where the first element is not Sunday but the one chosen by the user
+    let daysRebuild = _.concat([], _.slice(DAYS, firstDay), _.take(DAYS, firstDay));
+
+    let columns = daysRebuild.slice(0, numberOfDays).map(function(day) {
       let t = _.cloneDeep(columnsHeaderTemplate);
       _.set(t, 'title', day.label.toUpperCase());
       _.set(t, 'dataIndex', day.label.toLowerCase());
@@ -35,6 +39,7 @@ export default React.createClass({
     _.set(emptyT, 'dataIndex', 'period');
     _.set(emptyT, 'key', 'period');
     columns.unshift(emptyT);
+
     return columns;
   },
   getData(){

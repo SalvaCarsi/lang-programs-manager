@@ -14,6 +14,9 @@ export default React.createClass({
       beginningOfPeriod: 'morning'
     }
   },
+  changeFirstDay(n){
+    this.setState({firstDay:n})
+  },
   changeNumberOfDays(n){
     this.setState({numberOfDays:n})
   },
@@ -23,7 +26,7 @@ export default React.createClass({
         <div className="row">
           <div className="col-sm-3">
             First day
-            <FirstDay />
+            <FirstDay onSelectionChange={this.changeFirstDay}/>
           </div>
           <div className="col-sm-3">
             Number of days

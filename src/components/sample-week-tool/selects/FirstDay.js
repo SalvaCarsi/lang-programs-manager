@@ -3,15 +3,19 @@ import Select from 'react-select';
 import DAYS from '../../../data/days';
 
 export default React.createClass({
+  propTypes: {
+    onSelectionChange: React.PropTypes.func
+  },
   getInitialState() {
     return {
-      selectValue: ''
+      selectValue: null
     }
   },
   updateValue (newValue) {
     this.setState({
       selectValue: newValue
     });
+    this.props.onSelectionChange(newValue);
   },
   render(){
     return (

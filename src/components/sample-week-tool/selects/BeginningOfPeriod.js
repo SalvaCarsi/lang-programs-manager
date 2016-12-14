@@ -5,7 +5,7 @@ import PERIODS from '../../../data/periods';
 export default React.createClass({
   getInitialState() {
     return {
-      selectValue: ''
+      selectValue: null
     }
   },
   updateValue (newValue) {

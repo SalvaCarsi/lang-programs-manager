@@ -12,13 +12,13 @@ const DAY_NUMBERS = [
 ];
 
 export default React.createClass({
+  propTypes: {
+    onSelectionChange: React.PropTypes.func
+  },
   getInitialState() {
     return {
       selectValue: null
     }
-  },
-  propTypes: {
-    onSelectionChange: React.PropTypes.func
   },
   updateValue (newValue) {
     this.setState({
