@@ -20,6 +20,12 @@ export default React.createClass({
   changeNumberOfDays(n){
     this.setState({numberOfDays:n})
   },
+  changeNumberOfPeriods(n){
+    this.setState({numberOfPeriods:n})
+  },
+  changeBeginningOfPeriod(n){
+    this.setState({beginningOfPeriod:n})
+  },
   render() {
     return (
       <div>
@@ -34,11 +40,11 @@ export default React.createClass({
           </div>
           <div className="col-sm-3">
             Number of periods
-            <NumberOfPeriods />
+            <NumberOfPeriods onSelectionChange={this.changeNumberOfPeriods}/>
           </div>
           <div className="col-sm-3">
             Beginning of the period
-            <BeginningOfPeriod />
+            <BeginningOfPeriod onSelectionChange={this.changeBeginningOfPeriod}/>
           </div>
         </div>
         <br/>

@@ -3,6 +3,9 @@ import Select from 'react-select';
 import PERIODS from '../../../data/periods';
 
 export default React.createClass({
+  propTypes: {
+    onSelectionChange: React.PropTypes.func
+  },
   getInitialState() {
     return {
       selectValue: null
@@ -12,6 +15,7 @@ export default React.createClass({
     this.setState({
       selectValue: newValue
     });
+    this.props.onSelectionChange(newValue);
   },
   render(){
     return (

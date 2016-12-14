@@ -5,7 +5,7 @@ import Table from 'rc-table';
 import _ from 'lodash';
 
 export default React.createClass({
-  //==== React elements and functions ====
+  // ================= React elements and functions =================
   propTypes: {
     firstDay: React.PropTypes.number,
     numberOfDays: React.PropTypes.number,
@@ -15,12 +15,12 @@ export default React.createClass({
   render(){
     return (
       <div>
-        <Table columns={this.getColumns()} data={this.getData()} />
+        <Table columns={this.generateColumns()} data={this.generateRows()} />
       </div>
     );
   },
-  //==== Helper functions ====
-  getColumns(){
+  // ================= Helper functions =================
+  generateColumns(){
     let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
     let numberOfDays = this.props.numberOfDays === null ? 7 : this.props.numberOfDays;
     let firstDay = this.props.firstDay === null ? 0 : this.props.firstDay;
@@ -42,7 +42,9 @@ export default React.createClass({
 
     return columns;
   },
-  getData(){
+  generateRows(){
+    // let numberOfPeriods = this.props.numberOfPeriods === null ? 7 : this.props.numberOfPeriods;
+    // let beginningOfPeriod = this.props.beginningOfPeriod === null ? 0 : this.props.beginningOfPeriod;
     return PERIODS.map(function (period) {
       let data = {};
       _.set(data, 'period', period.label.toUpperCase());

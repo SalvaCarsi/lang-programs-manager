@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 
-const DAY_NUMBERS = [
+const NUMBER_OF_DAYS = [
   { value: 1, label: '1' },
   { value: 2, label: '2' },
   { value: 3, label: '3' },
@@ -30,7 +30,7 @@ export default React.createClass({
     return (
       <Select ref="numberOfDaysSelect"
               autofocus
-              options={DAY_NUMBERS}
+              options={NUMBER_OF_DAYS}
               simpleValue
               name="selected-day-number"
               value={this.state.selectValue}
