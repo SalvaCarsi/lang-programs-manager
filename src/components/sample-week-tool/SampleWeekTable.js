@@ -1,22 +1,32 @@
 import React from 'react';
 import DAYS from '../../data/days';
+import PERIODS from '../../data/period';
 import Table from 'rc-table';
 import _ from 'lodash';
 
 export default React.createClass({
+  // React elements and functions
   propTypes: {
     firstDay: React.PropTypes.number,
     numberOfDays: React.PropTypes.number,
     numberOfPeriods: React.PropTypes.number,
     beginningOfPeriod: React.PropTypes.string
   },
+  render(){
+    return (
+      <div>
+        <Table columns={this.getColumns()} data={this.getData()} />
+      </div>
+    );
+  },
+  // Helper functions
   getColumns(){
     let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
-    let columns = DAYS.slice(0, this.props.numberOfDays).map(function(element) {
+    let columns = DAYS.slice(0, this.props.numberOfDays).map(function(day) {
       let t = _.cloneDeep(columnsHeaderTemplate);
-      _.set(t, 'title', element.label.toUpperCase());
-      _.set(t, 'dataIndex', element.label.toLowerCase());
-      _.set(t, 'key', element.label.toLowerCase());
+      _.set(t, 'title', day.label.toUpperCase());
+      _.set(t, 'dataIndex', day.label.toLowerCase());
+      _.set(t, 'key', day.label.toLowerCase());
       return t;
     });
     let emptyT = _.cloneDeep(columnsHeaderTemplate);
@@ -27,16 +37,11 @@ export default React.createClass({
     return columns;
   },
   getData(){
-    let data = {};
-    DAYS.forEach(element => _.set(data, element.label, ''));
-    _.set(data, 'period', 'MORNING');
-    return [data];
-  },
-  render(){
-    return (
-      <div>
-        <Table columns={this.getColumns()} data={this.getData()} />
-      </div>
-    );
+    return PERIODS.map(function (period) {
+      let data = {};
+      _.set(data, 'period', period.label.toUpperCase());
+      DAYS.forEach(day => _.set(data, day.label.toLowerCase(), ''));
+      return data;
+    });
   }
 });
