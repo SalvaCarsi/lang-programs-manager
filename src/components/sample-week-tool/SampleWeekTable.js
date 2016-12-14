@@ -21,8 +21,7 @@ export default React.createClass({
   },
   // Helper functions
   getColumns(){
-    let numberOfDays = this.props.numberOfDays;
-    if (this.props.numberOfDays === null) numberOfDays = 7;
+    let numberOfDays = this.props.numberOfDays === null ? 7 : this.props.numberOfDays;
     let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
     let columns = DAYS.slice(0, numberOfDays).map(function(day) {
       let t = _.cloneDeep(columnsHeaderTemplate);
