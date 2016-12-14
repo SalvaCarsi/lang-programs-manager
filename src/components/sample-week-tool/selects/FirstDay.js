@@ -8,7 +8,7 @@ export default React.createClass({
   },
   getInitialState() {
     return {
-      selectValue: null
+      selectValue: 0
     }
   },
   updateValue (newValue) {
@@ -26,6 +26,7 @@ export default React.createClass({
               name="selected-day"
               value={this.state.selectValue}
               onChange={this.updateValue}
+              clearable={false}
       />
       );
   }

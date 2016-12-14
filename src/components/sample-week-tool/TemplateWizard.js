@@ -9,7 +9,7 @@ import PERIODS from '../../data/periods';
 export default React.createClass({
   getInitialState() {
     return {
-      firstDay: 1,
+      firstDay: 0,
       numberOfDays: 7,
       numberOfPeriods: 3,
       beginningOfPeriod: PERIODS[0].value

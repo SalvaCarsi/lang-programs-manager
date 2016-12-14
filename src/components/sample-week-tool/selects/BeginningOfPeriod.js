@@ -8,7 +8,7 @@ export default React.createClass({
   },
   getInitialState() {
     return {
-      selectValue: null
+      selectValue: PERIODS[0].value
     }
   },
   updateValue (newValue) {
@@ -26,6 +26,7 @@ export default React.createClass({
               name="selected-beginning-of-period"
               value={this.state.selectValue}
               onChange={this.updateValue}
+              clearable={false}
       />
       );
   }

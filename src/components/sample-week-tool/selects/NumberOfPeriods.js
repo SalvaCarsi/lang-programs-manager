@@ -13,7 +13,7 @@ export default React.createClass({
   },
   getInitialState() {
     return {
-      selectValue: null
+      selectValue: 3
     }
   },
   updateValue (newValue) {
@@ -31,6 +31,7 @@ export default React.createClass({
               name="selected-period-number"
               value={this.state.selectValue}
               onChange={this.updateValue}
+              clearable={false}
       />
       );
   }
