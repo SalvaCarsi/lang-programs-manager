@@ -76,6 +76,8 @@ export default React.createClass({
           if (period.value === fullDayKeyValue)
             _.set(data, 'period', period.label.toUpperCase());
           break;
+        default:
+          break;
       }
       DAYS.forEach(day => _.set(data, day.label.toLowerCase(), ''));
       return data;
