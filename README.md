@@ -1,8 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
-Below you will find some information on how to perform common tasks.<br>
-You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
-
 ## Introduction
 
 This project implements a tool that gives the user the opportunity to create a sample week activity table to organize a group.
@@ -19,6 +14,11 @@ Then you can edit the content of a week: Implementation in progress!!
 - Drag and drop	the	text to another	period
 - Extend a period by stretching
 - Delete a period
+
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+Below you will find some information on how to perform common tasks.<br>
+You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
 ## Available Scripts
 
