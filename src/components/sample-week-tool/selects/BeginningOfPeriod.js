@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import PERIOD from '../../../data/period';
+import PERIODS from '../../../data/periods';
 
 export default React.createClass({
   getInitialState() {
@@ -17,7 +17,7 @@ export default React.createClass({
     return (
       <Select ref="beginningOfPeriodSelect"
               autofocus
-              options={PERIOD}
+              options={PERIODS}
               simpleValue
               name="selected-beginning-of-period"
               value={this.state.selectValue}

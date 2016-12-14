@@ -1,6 +1,6 @@
 ## Introduction
 
-This project implements a tool that gives the user the opportunity to create a sample week activity table to organize a group.
+This project implements a tool that gives the user the opportunity to create a sample week activity table to organize a groups activities.
 
 It gives us	the	possibility	to choose the structure	of a sample	week:
 - First	day	of the	week

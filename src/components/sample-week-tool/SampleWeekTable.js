@@ -1,6 +1,6 @@
 import React from 'react';
 import DAYS from '../../data/days';
-import PERIODS from '../../data/period';
+import PERIODS from '../../data/periods';
 import Table from 'rc-table';
 import _ from 'lodash';
 

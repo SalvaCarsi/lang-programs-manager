@@ -1,7 +1,7 @@
-const PERIOD = [
+const PERIODS = [
   { value: 'morning', label: 'Morning' },
   { value: 'afternoon', label: 'Afternoon' },
   { value: 'evening', label: 'Evening' }
 ];
 
-export default PERIOD;
+export default PERIODS;
