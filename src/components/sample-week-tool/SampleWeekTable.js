@@ -2,6 +2,7 @@ import React from 'react';
 import DAYS from '../../data/days';
 import PERIODS from '../../data/periods';
 import Table from 'rc-table';
+// import MyTable from './MyTable';
 import _ from 'lodash';
 import 'rc-table/assets/index.css';
 
@@ -17,6 +18,7 @@ export default React.createClass({
     return (
       <div>
         <Table columns={this.generateColumns()} data={this.generateRows()} />
+        {/*<MyTable columns={this.generateColumns()} data={this.generateRows()} />*/}
       </div>
     );
   },
@@ -33,6 +35,9 @@ export default React.createClass({
       _.set(t, 'title', day.label.toUpperCase());
       _.set(t, 'dataIndex', day.label.toLowerCase());
       _.set(t, 'key', day.label.toLowerCase());
+      _.set(t, 'render', function (a) {
+        return <input type="text" className="table-field" />;
+      });
       return t;
     });
     let emptyT = _.cloneDeep(columnsHeaderTemplate);
@@ -44,44 +49,49 @@ export default React.createClass({
     return columns;
   },
   generateRows(){
-    const morningKeyValue = PERIODS[0].value;
-    const afternoonKeyValue = PERIODS[1].value;
-    const eveningKeyValue = PERIODS[2].value;
-    const fullDayKeyValue = PERIODS[3].value;
-    let numberOfPeriods = this.props.numberOfPeriods === null ? 3 : this.props.numberOfPeriods;
-    let beginningOfPeriod = this.props.beginningOfPeriod === null ? morningKeyValue : this.props.beginningOfPeriod;
+    const morningPeriod = PERIODS[0];
+    const afternoonPeriod = PERIODS[1];
+    const eveningPeriod = PERIODS[2];
+    const fullDayPeriod = PERIODS[3];
+    const numberOfPeriods = this.props.numberOfPeriods === null ? 3 : this.props.numberOfPeriods;
+    const beginningOfPeriod = this.props.beginningOfPeriod === null ? morningPeriod.value : this.props.beginningOfPeriod;
 
-    return PERIODS.map(function (period) {
-      let data = {};
-      switch (beginningOfPeriod) {
-        case morningKeyValue:
-          if (numberOfPeriods === 3 && period.value !== fullDayKeyValue)
-            _.set(data, 'period', period.label.toUpperCase());
-          if (numberOfPeriods === 2 && period.value !== fullDayKeyValue && period.value !== eveningKeyValue)
-            _.set(data, 'period', period.label.toUpperCase());
-          if (numberOfPeriods === 1 && period.value === morningKeyValue)
-            _.set(data, 'period', period.label.toUpperCase());
-          break;
-        case afternoonKeyValue:
-          if ((numberOfPeriods === 3 || numberOfPeriods === 2)
-            && period.value !== fullDayKeyValue && period.value !== morningKeyValue)
-            _.set(data, 'period', period.label.toUpperCase());
-          if (numberOfPeriods === 1 && period.value === afternoonKeyValue)
-            _.set(data, 'period', period.label.toUpperCase());
-          break;
-        case eveningKeyValue:
-          if (period.value === eveningKeyValue)
-            _.set(data, 'period', period.label.toUpperCase());
-          break;
-        case fullDayKeyValue:
-          if (period.value === fullDayKeyValue)
-            _.set(data, 'period', period.label.toUpperCase());
-          break;
-        default:
-          break;
-      }
-      DAYS.forEach(day => _.set(data, day.label.toLowerCase(), ''));
-      return data;
-    });
+    let rows = [];
+    switch (beginningOfPeriod) {
+      case morningPeriod.value:
+        switch (numberOfPeriods) {
+          case 3: rows.unshift(_.set({}, 'period', eveningPeriod.label.toUpperCase())); // falls through
+          case 2: rows.unshift(_.set({}, 'period', afternoonPeriod.label.toUpperCase())); // falls through
+          case 1: rows.unshift(_.set({}, 'period', morningPeriod.label.toUpperCase())); // falls through
+          default: break;
+        }
+        break;
+      case afternoonPeriod.value:
+        switch (numberOfPeriods) {
+          case 3:
+          case 2: rows.unshift(_.set({}, 'period', eveningPeriod.label.toUpperCase())); // falls through
+          case 1: rows.unshift(_.set({}, 'period', afternoonPeriod.label.toUpperCase())); // falls through
+          default: break;
+        }
+        break;
+      case eveningPeriod.value:
+        switch (numberOfPeriods) {
+          case 3: // falls through
+          case 2: // falls through
+          case 1: rows.unshift(_.set({}, 'period', eveningPeriod.label.toUpperCase())); // falls through
+          default: break;
+        }
+        break;
+      case fullDayPeriod.value:
+        switch (numberOfPeriods) {
+          case 3: // falls through
+          case 2: // falls through
+          case 1: rows.unshift(_.set({}, 'period', fullDayPeriod.label.toUpperCase())); // falls through
+          default: break;
+        }
+        break;
+      default: break;
+    }
+    return rows;
   }
 });
