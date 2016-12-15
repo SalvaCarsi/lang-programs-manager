@@ -35,8 +35,8 @@ export default React.createClass({
       _.set(t, 'title', day.label.toUpperCase());
       _.set(t, 'dataIndex', day.label.toLowerCase());
       _.set(t, 'key', day.label.toLowerCase());
-      _.set(t, 'render', function (a) {
-        return <input type="text" className="table-field" />;
+      _.set(t, 'render', function () {
+        return <textarea className="sample-week-table-text-area" />;
       });
       return t;
     });
