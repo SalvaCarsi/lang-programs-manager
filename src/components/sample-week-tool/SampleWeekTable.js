@@ -3,6 +3,7 @@ import DAYS from '../../data/days';
 import PERIODS from '../../data/periods';
 import Table from 'rc-table';
 import _ from 'lodash';
+import 'rc-table/assets/index.css';
 
 export default React.createClass({
   // ================= React elements and functions =================
