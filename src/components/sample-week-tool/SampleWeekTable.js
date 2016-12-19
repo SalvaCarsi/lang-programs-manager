@@ -4,11 +4,22 @@ import PERIODS from '../../data/periods';
 import Table from 'rc-table';
 import _ from 'lodash';
 import 'rc-table/assets/index.css';
+import TableElement from './TableElement';
 
 export default React.createClass({
   // ================= React elements and functions =================
   propTypes: {
     tableDataModel: React.PropTypes.array
+  },
+  getInitialState(){
+    return {
+      tableDataInstance: _.cloneDeep(this.props.tableDataModel)
+    }
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      sampleWeekTable: _.cloneDeep(nextProps.tableDataModel)
+    })
   },
   render(){
     return (
@@ -18,17 +29,39 @@ export default React.createClass({
     );
   },
   // ================= Helper functions =================
+  // saveTableElementOnBlur(dayIndex){
+  //   return function (value) {
+  //     let newSampleWeekTable = this.state.tableDataInstance;
+  //     newSampleWeekTable[1][dayIndex] = value;
+  //     this.setState({
+  //       tableDataInstance: newSampleWeekTable
+  //     });
+  //   }
+  // },
   generateColumns(){
-    let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
-    return this.props.tableDataModel[0].map(function (daysIndex) {
-      if (daysIndex > -1) {
+    let thiz = this; // this is not the same here than inside the subsequent functions, putting a copy on scope
+    return this.props.tableDataModel[0].map(function(dayIndex){
+      let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
+      if (dayIndex > -1) {
         let t = _.cloneDeep(columnsHeaderTemplate);
-        const day = _.find(DAYS, o => o.value === daysIndex);
+        const day = _.find(DAYS, o => o.value === dayIndex);
         _.set(t, 'title', day.label.toUpperCase());
         _.set(t, 'dataIndex', day.label.toUpperCase());
         _.set(t, 'key', day.label.toUpperCase());
         _.set(t, 'render', function () {
-          return <textarea className="sample-week-table-text-area" />;
+          return <TableElement
+            saveTextOnTableDataInstance={
+              function () {
+                // partial function to be applied in the child component
+                return function (value) {
+                  let newSampleWeekTable = thiz.state.tableDataInstance;
+                  newSampleWeekTable[1][dayIndex] = value;
+                  thiz.setState({
+                    tableDataInstance: newSampleWeekTable
+                  });
+                }
+              }
+            }/>;
         });
         return t;
       } else {
