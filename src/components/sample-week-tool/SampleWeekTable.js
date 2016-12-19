@@ -40,7 +40,7 @@ export default React.createClass({
   // },
   generateColumns(){
     let thiz = this; // this is not the same here than inside the subsequent functions, putting a copy on scope
-    return this.props.tableDataModel[0].map(function(dayIndex){
+    return this.state.tableDataInstance[0].map(function(dayIndex){
       let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
       if (dayIndex > -1) {
         let t = _.cloneDeep(columnsHeaderTemplate);
@@ -48,14 +48,15 @@ export default React.createClass({
         _.set(t, 'title', day.label.toUpperCase());
         _.set(t, 'dataIndex', day.label.toUpperCase());
         _.set(t, 'key', day.label.toUpperCase());
-        _.set(t, 'render', function () {
+        _.set(t, 'render', function (cellText, row, index) {
           return <TableElement
             saveTextOnTableDataInstance={
               function () {
                 // partial function to be applied in the child component
                 return function (value) {
-                  let newSampleWeekTable = thiz.state.tableDataInstance;
-                  newSampleWeekTable[1][dayIndex] = value;
+                  const rowIndex = _.findIndex(PERIODS, o => o.value === row.period.toLowerCase());
+                  let newSampleWeekTable = _.cloneDeep(thiz.state.tableDataInstance);
+                  newSampleWeekTable[rowIndex+1][dayIndex+1] = value;
                   thiz.setState({
                     tableDataInstance: newSampleWeekTable
                   });
@@ -74,7 +75,7 @@ export default React.createClass({
     });
   },
   generateRows(){
-    return _.slice(this.props.tableDataModel, 1, this.props.tableDataModel.length).map(function (period) {
+    return _.slice(this.state.tableDataInstance, 1, this.state.tableDataInstance.length).map(function (period) {
       const periodObject = _.find(PERIODS, o => o.value === period[0]);
       return _.set({}, 'period', periodObject.label.toUpperCase())
     });
