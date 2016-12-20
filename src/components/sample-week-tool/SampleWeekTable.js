@@ -24,9 +24,23 @@ export default React.createClass({
   render(){
     return (
       <div>
-        <Table columns={this.generateColumns()} data={this.generateRows()} />
+        <div>
+          <Table columns={this.generateColumns()} data={this.generateRows()} />
+        </div>
+        <div>
+          <button type="button" onClick={this.exportProgram}>Export Program</button>
+        </div>
       </div>
     );
+  },
+  exportProgram(){
+    // let programAsJSON;
+    // this.state.tableDataInstance.forEach(function (row) {
+    //   row.forEach(function (cell) {
+    //     console.log('row '+row+' '+'cell '+cell);
+    //   })
+    // });
+    // return programAsJSON;
   },
   generateColumns(){
     let thiz = this; // this is not the same here than inside the subsequent functions, putting a copy on scope
