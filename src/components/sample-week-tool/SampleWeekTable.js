@@ -30,16 +30,16 @@ export default React.createClass({
   },
   generateColumns(){
     let thiz = this; // this is not the same here than inside the subsequent functions, putting a copy on scope
-    return this.state.tableDataInstance[0].map(function(dayIndex){
+    return this.state.tableDataInstance[0].map(function(dayNumber){
       let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
-      if (dayIndex > -1) {
+      if (dayNumber > -1) {
         let t = _.cloneDeep(columnsHeaderTemplate);
-        const day = _.find(DAYS, o => o.value === dayIndex);
+        const day = _.find(DAYS, o => o.value === dayNumber);
+        const dayIndexInDataModel = _.findIndex(thiz.state.tableDataInstance[0], d => d === dayNumber);
         _.set(t, 'title', day.label.toUpperCase());
         _.set(t, 'dataIndex', day.label.toUpperCase());
         _.set(t, 'key', day.label.toUpperCase());
         _.set(t, 'render', function (cellText, row, index) {
-          const rowIndex = _.findIndex(PERIODS, o => o.value === row.period.toLowerCase());
           return (
             <TableElement
               saveTextOnTableDataInstance={
@@ -47,14 +47,14 @@ export default React.createClass({
                   // partial function to be applied in the child component
                   return function (value) {
                     let newSampleWeekTable = _.cloneDeep(thiz.state.tableDataInstance);
-                    newSampleWeekTable[rowIndex+1][dayIndex+1] = value;
+                    newSampleWeekTable[index+1][dayIndexInDataModel] = value;
                     thiz.setState({
                       tableDataInstance: newSampleWeekTable
                     });
                   }
                 }
               }
-              elementId={rowIndex.toString()+'-'+dayIndex.toString()}
+              elementId={index.toString()+'-'+dayIndexInDataModel.toString()}
             />
           );
         });
