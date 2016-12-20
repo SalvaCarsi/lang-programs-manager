@@ -13,7 +13,8 @@ export default React.createClass({
   },
   getInitialState(){
     return {
-      tableDataInstance: _.cloneDeep(this.props.tableDataModel)
+      tableDataInstance: _.cloneDeep(this.props.tableDataModel),
+      exportedTable: {}
     }
   },
   componentWillReceiveProps(nextProps) {
@@ -28,19 +29,27 @@ export default React.createClass({
           <Table columns={this.generateColumns()} data={this.generateRows()} />
         </div>
         <div>
-          <button type="button" onClick={this.exportProgram}>Export Program</button>
+          <button type="button" onClick={this.exportTable}>Export Table!</button>
+        </div>
+        <div>
+          <pre>
+            {JSON.stringify(this.state.exportedTable, null, 2)}
+          </pre>
         </div>
       </div>
     );
   },
-  exportProgram(){
-    // let programAsJSON;
-    // this.state.tableDataInstance.forEach(function (row) {
-    //   row.forEach(function (cell) {
-    //     console.log('row '+row+' '+'cell '+cell);
-    //   })
-    // });
-    // return programAsJSON;
+  exportTable(){
+    let result = {};
+    const tableInstance = this.state.tableDataInstance;
+    const numberOfDays = tableInstance[0].length;
+    _.slice(tableInstance, 1).forEach(function (row) {
+      for (let i = 1; i < numberOfDays; i++) {
+        const day = tableInstance[0][i];
+        _.set(result, ['sampleWeekTable', day, row[0]], row[i]);
+      }
+    });
+    this.setState({exportedTable: result});
   },
   generateColumns(){
     let thiz = this; // 'this' is not the same here than inside the subsequent functions, putting a copy on scope
