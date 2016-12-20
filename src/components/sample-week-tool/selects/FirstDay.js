@@ -8,7 +8,7 @@ export default React.createClass({
   },
   getInitialState() {
     return {
-      selectValue: 0
+      selectValue: DAYS[0].value
     }
   },
   updateValue (newValue) {

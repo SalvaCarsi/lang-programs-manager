@@ -6,13 +6,14 @@ import BeginningOfPeriod from './selects/BeginningOfPeriod';
 import SampleWeekTable from './SampleWeekTable';
 import DAYS from '../../data/days';
 import PERIODS from '../../data/periods';
+import CONST from '../../data/const';
 import _ from 'lodash';
 
 export default React.createClass({
   // ================= React elements and functions =================
   getInitialState() {
     return {
-      firstDay: 0,
+      firstDay: DAYS[0].value,
       numberOfDays: 7,
       numberOfPeriods: 3,
       beginningOfPeriod: PERIODS[0].value
@@ -76,10 +77,10 @@ export default React.createClass({
   },
   generateFirstRow(){
     // building a new DAYS array, where the first element is not Sunday but the one chosen by the user
-    const firstDay = this.state.firstDay;
-    let daysRebuild = _.concat([], _.slice(DAYS, firstDay), _.take(DAYS, firstDay));
+    const firstDayIndex = _.findIndex(DAYS, e => e.value === this.state.firstDay);
+    let daysRebuild = _.concat([], _.slice(DAYS, firstDayIndex), _.take(DAYS, firstDayIndex));
     let columns = daysRebuild.slice(0, this.state.numberOfDays).map(e => e.value);
-    columns.unshift(-1);
+    columns.unshift(CONST.dayMarker);
     return columns;
   },
   generateSubsequentRows(){

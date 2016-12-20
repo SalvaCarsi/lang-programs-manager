@@ -1,6 +1,6 @@
 import React from 'react';
-import DAYS from '../../data/days';
 import PERIODS from '../../data/periods';
+import CONST from '../../data/const';
 import Table from 'rc-table';
 import _ from 'lodash';
 import 'rc-table/assets/index.css';
@@ -43,16 +43,15 @@ export default React.createClass({
     // return programAsJSON;
   },
   generateColumns(){
-    let thiz = this; // this is not the same here than inside the subsequent functions, putting a copy on scope
-    return this.state.tableDataInstance[0].map(function(dayNumber){
+    let thiz = this; // 'this' is not the same here than inside the subsequent functions, putting a copy on scope
+    return this.state.tableDataInstance[0].map(function(day){
       let columnsHeaderTemplate = {title: '', dataIndex: '', key: '', width: 150};
-      if (dayNumber > -1) {
+      if (day > CONST.dayMarker) {
         let t = _.cloneDeep(columnsHeaderTemplate);
-        const day = _.find(DAYS, o => o.value === dayNumber);
-        const dayIndexInDataModel = _.findIndex(thiz.state.tableDataInstance[0], d => d === dayNumber);
-        _.set(t, 'title', day.label.toUpperCase());
-        _.set(t, 'dataIndex', day.label.toUpperCase());
-        _.set(t, 'key', day.label.toUpperCase());
+        const dayIndexInDataModel = _.findIndex(thiz.state.tableDataInstance[0], d => d === day);
+        _.set(t, 'title', day.toUpperCase());
+        _.set(t, 'dataIndex', day.toUpperCase());
+        _.set(t, 'key', day.toUpperCase());
         _.set(t, 'render', function (cellText, row, index) {
           return (
             <TableElement
