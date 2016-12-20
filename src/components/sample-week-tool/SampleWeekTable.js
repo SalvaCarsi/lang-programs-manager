@@ -28,16 +28,6 @@ export default React.createClass({
       </div>
     );
   },
-  // ================= Helper functions =================
-  // saveTableElementOnBlur(dayIndex){
-  //   return function (value) {
-  //     let newSampleWeekTable = this.state.tableDataInstance;
-  //     newSampleWeekTable[1][dayIndex] = value;
-  //     this.setState({
-  //       tableDataInstance: newSampleWeekTable
-  //     });
-  //   }
-  // },
   generateColumns(){
     let thiz = this; // this is not the same here than inside the subsequent functions, putting a copy on scope
     return this.state.tableDataInstance[0].map(function(dayIndex){
@@ -49,20 +39,24 @@ export default React.createClass({
         _.set(t, 'dataIndex', day.label.toUpperCase());
         _.set(t, 'key', day.label.toUpperCase());
         _.set(t, 'render', function (cellText, row, index) {
-          return <TableElement
-            saveTextOnTableDataInstance={
-              function () {
-                // partial function to be applied in the child component
-                return function (value) {
-                  const rowIndex = _.findIndex(PERIODS, o => o.value === row.period.toLowerCase());
-                  let newSampleWeekTable = _.cloneDeep(thiz.state.tableDataInstance);
-                  newSampleWeekTable[rowIndex+1][dayIndex+1] = value;
-                  thiz.setState({
-                    tableDataInstance: newSampleWeekTable
-                  });
+          const rowIndex = _.findIndex(PERIODS, o => o.value === row.period.toLowerCase());
+          return (
+            <TableElement
+              saveTextOnTableDataInstance={
+                function () {
+                  // partial function to be applied in the child component
+                  return function (value) {
+                    let newSampleWeekTable = _.cloneDeep(thiz.state.tableDataInstance);
+                    newSampleWeekTable[rowIndex+1][dayIndex+1] = value;
+                    thiz.setState({
+                      tableDataInstance: newSampleWeekTable
+                    });
+                  }
                 }
               }
-            }/>;
+              elementId={rowIndex.toString()+'-'+dayIndex.toString()}
+            />
+          );
         });
         return t;
       } else {

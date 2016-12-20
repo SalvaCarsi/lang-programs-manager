@@ -3,20 +3,28 @@ import React from 'react';
 export default React.createClass({
   // ================= React elements and functions =================
   propTypes: {
-    saveTextOnTableDataInstance: React.PropTypes.func
+    saveTextOnTableDataInstance: React.PropTypes.func,
+    elementId: React.PropTypes.string
   },
   getInitialState(){
     return {
-      value: 'hola'
+      value: null
     }
   },
   saveText(){
     this.props.saveTextOnTableDataInstance()(this.state.value)
   },
+  saveValue(){
+    const v = document.getElementById(this.getElementId()).value;
+    this.setState({value: v});
+  },
+  getElementId(){
+    return 'table-elem-'+this.props.elementId;
+  },
   render(){
     return (
       <div>
-        <textarea onBlur={this.saveText} />
+        <textarea id={this.getElementId()} onBlur={this.saveText} onKeyPress={this.saveValue} />
       </div>
     );
   },
