@@ -24,7 +24,7 @@ export default React.createClass({
   render(){
     return (
       <div>
-        <textarea id={this.getElementId()} onBlur={this.saveText} onKeyPress={this.saveValue} />
+        <textarea id={this.getElementId()} onBlur={this.saveText} onKeyUp={this.saveValue} />
       </div>
     );
   },
