@@ -18,7 +18,7 @@ export default React.createClass({
   },
   componentWillReceiveProps(nextProps) {
     this.setState({
-      sampleWeekTable: _.cloneDeep(nextProps.tableDataModel)
+      tableDataInstance: _.cloneDeep(nextProps.tableDataModel)
     })
   },
   render(){
